@@ -404,7 +404,18 @@ export default function Home() {
 
       <footer className="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-7 text-sm text-[#8B7168] sm:flex-row sm:items-center sm:justify-between lg:px-10">
         <span>© {new Date().getFullYear()} DineSpace</span>
-        <span>Made for better dining experiences.</span>
+        <span className="flex flex-wrap items-center gap-1">
+          Made for better dining experiences by
+          <a
+            href="https://mu-bin.dev"
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold text-[#A13924] underline decoration-[#DDBDB3] underline-offset-4 transition hover:text-[#842F1E]"
+          >
+            Abdullah Al Mubin
+          </a>
+          .
+        </span>
       </footer>
     </main>
   );
