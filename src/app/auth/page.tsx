@@ -145,7 +145,7 @@ export default function Auth(){
 
                     <div className=" flex justify-between">
                         <label htmlFor="password">Password:</label>
-                        <a className="text-[12px] font-bold text-[#A13924] cursor-pointer">Forget Password?</a>
+                        <button className="text-[12px] font-bold text-[#A13924] cursor-pointer">Forget Password?</button>
                     </div>
                     <div className={`flex items-center p-3 shadow rounded ${form.formState.errors.password? "border border-red-500":""}`}>
                         <Lock className='text-[#17375E] mr-2' />
@@ -217,4 +217,12 @@ export default function Auth(){
     </div>
     </>
     );
+}
+
+function forgetpass(){
+    return (
+        <>
+        
+        </>
+    )
 }

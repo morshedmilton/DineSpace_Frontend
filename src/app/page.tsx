@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, ChefHat, CircleCheck, ClipboardList, Loader2, LogIn, Sparkles, Utensils } from "lucide-react";
+import { ArrowRight, ChefHat, CircleCheck, ClipboardList, GitBranch, Loader2, LogIn, Sparkles, Utensils } from "lucide-react";
 import { useState } from "react";
 import { api } from "@/lib/api/axios";
 import Result from "@/lib/Result";
@@ -17,6 +17,7 @@ interface LoginResponse {
 export default function Home() {
   const router = useRouter();
   const [showDeveloperStory, setShowDeveloperStory] = useState(false);
+  const [showProjectPlan, setShowProjectPlan] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [dummyLoginError, setDummyLoginError] = useState<string | null>(null);
 
@@ -93,6 +94,24 @@ export default function Home() {
           </Link>
         </div>
       </header>
+
+      <div className="mx-auto mt-2 max-w-7xl px-4 sm:px-6 lg:px-10">
+        <div className="flex items-center gap-3 rounded-2xl border border-[#E7BE78] bg-[#FFF4D8] px-4 py-3 text-sm text-[#76511A] shadow-sm sm:px-5">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F2C66D] text-[#76511A]" aria-hidden="true">
+            <GitBranch size={16} />
+          </span>
+          <p className="flex-1">
+            <span className="font-bold">In development:</span> DineSpace is actively growing with new restaurant operations tools.
+          </p>
+          <button
+            type="button"
+            onClick={() => setShowProjectPlan(true)}
+            className="hidden shrink-0 rounded-lg bg-[#76511A] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[#5F4014] sm:inline-flex"
+          >
+            View plan
+          </button>
+        </div>
+      </div>
 
       <section className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-14 pt-8 sm:gap-12 sm:px-6 sm:pb-20 sm:pt-10 lg:grid-cols-[0.92fr_1.08fr] lg:px-10 lg:pb-28 lg:pt-16">
         <div>
@@ -221,6 +240,106 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <section className="border-t border-[#EAD8D2] bg-[#28211E] text-[#FFF9F3]">
+        <div className="mx-auto grid max-w-7xl gap-8 px-6 py-16 sm:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-10">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#F2C08D]">About this website</p>
+            <h2 className="mt-3 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">
+              One connected workspace for diners, restaurant teams, and platform admins.
+            </h2>
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-[#E8D9D0] sm:text-base sm:leading-8">
+              DineSpace is a full-stack restaurant platform built to make dining more independent
+              and restaurant operations more organized. Visitors can browse menus and order from
+              their table, while restaurant teams manage the work behind every meal in real time.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-[#6B5148] bg-[#382B27] p-6">
+            <p className="text-sm font-semibold text-[#F2C08D]">About This Project</p>
+            <p className="mt-3 text-sm leading-7 text-[#E8D9D0]">
+              Explore the current product and see what is planned next. The project is actively
+              being developed, so this page is also a transparent view of the next milestones.
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowProjectPlan(true)}
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#F2C08D] px-5 py-3 font-semibold text-[#382B27] transition hover:bg-[#FFD6A9] sm:w-auto"
+            >
+              View architecture and plan
+              <ArrowRight size={17} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {showProjectPlan && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#171717]/70 px-3 py-4 backdrop-blur-sm sm:px-5 sm:py-6"
+          role="presentation"
+          onClick={() => setShowProjectPlan(false)}
+        >
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="project-plan-title"
+            className="max-h-[calc(100svh-2rem)] w-full max-w-3xl overflow-y-auto rounded-2xl border border-[#EAD8D2] bg-[#FBF9F6] p-5 shadow-2xl sm:max-h-[calc(100svh-3rem)] sm:rounded-3xl sm:p-10"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#A13924]">Project roadmap</p>
+                <h2 id="project-plan-title" className="mt-2 text-2xl font-bold text-[#171717] sm:text-3xl">
+                  How DineSpace is built and where it is going
+                </h2>
+              </div>
+              <button
+                type="button"
+                aria-label="Close architecture and plan"
+                onClick={() => setShowProjectPlan(false)}
+                className="rounded-full px-3 py-1 text-2xl leading-none text-[#735B53] transition hover:bg-[#F4E9E5] hover:text-[#A13924]"
+              >
+                &times;
+              </button>
+            </div>
+
+            <div className="mt-7 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl border border-[#EAD8D2] bg-white p-5">
+                <p className="text-sm font-bold text-[#A13924]">Architecture</p>
+                <p className="mt-2 text-sm leading-7 text-[#514947]">
+                  A Next.js and React frontend communicates with the backend through REST APIs.
+                  Socket.IO provides real-time order updates, while role-based routes separate
+                  diner, restaurant owner, and admin experiences.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-[#EAD8D2] bg-white p-5">
+                <p className="text-sm font-bold text-[#A13924]">Current focus</p>
+                <p className="mt-2 text-sm leading-7 text-[#514947]">
+                  Staff Control and Salary Control are currently being developed to help owners
+                  organize team access, staff records, compensation, and day-to-day operations.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-5 rounded-2xl border border-[#EAD8D2] bg-white p-5">
+              <p className="text-sm font-bold text-[#A13924]">Plan</p>
+              <ol className="mt-3 grid gap-3 text-sm leading-6 text-[#514947] sm:grid-cols-2">
+                <li><span className="font-semibold text-[#171717]">01. Core dining flow:</span> menus, table ordering, payments, and live order status.</li>
+                <li><span className="font-semibold text-[#171717]">02. Restaurant control:</span> staff permissions, salary tracking, menus, tables, and payouts.</li>
+                <li><span className="font-semibold text-[#171717]">03. Admin visibility:</span> restaurant oversight, withdrawals, and platform reporting.</li>
+                <li><span className="font-semibold text-[#171717]">04. Refinement:</span> testing, performance improvements, and a smoother mobile experience.</li>
+              </ol>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowProjectPlan(false)}
+              className="mt-7 w-full rounded-xl bg-[#A13924] px-5 py-3 font-semibold text-white transition hover:bg-[#842F1E] sm:w-auto"
+            >
+              Back to DineSpace
+            </button>
+          </section>
+        </div>
+      )}
 
       {showDeveloperStory && (
         <div
