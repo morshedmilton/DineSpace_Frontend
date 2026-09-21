@@ -124,7 +124,8 @@ export default function Auth(){
     return(
     <>
     <ServerError error={serverError} setservererror={() => setServerError(false)}/>
-    <Forgetpass/>
+    
+    {/* {btns.forget && btns.forget === true && <Forgetpass />} */}
        {popup && <AlerPopup setpopup={() => setpopup("")} Message={popup} />}
     <div className="flex justify-center items-center min-h-screen">
         <div className="w-[80vw] lg:w-[35vw]  md:w-[45vh] h-fitcontent xl:w-[25vw] rounded-3xl shadow ">
@@ -222,21 +223,21 @@ export default function Auth(){
     );
 }
 
-function Forgetpass(){
-    return (
-        <>
-        <div className='fixed inset-0 flex items-center  justify-center bg-[#0000005d]'>
-            <div className='bg-[#FFF5F1] min-w-[20vw] w-fit h-fit p-5 text-[#a13924] rounded shadow flex flex-col gap-3'>
-            <span className='flex justify-between flex-col gap-2'>
-            <label htmlFor="email" className='font-semibold'>Enter Your Email:</label>
-            <input type="text"  className='border border-[#]'/>
-            <span>
-                <button className='bg-[#A13924] text-white rounded h-8 w-20 '>Send</button>
-                <button className='border border-[#A13924] hover:bg-[#A13924] hover:text-white duration-200 cursor-pointer rounded h-8 w-20'>Cancel</button>
-            </span>
-            </span>
-            </div>
-        </div>
-        </>
-    )
-}
+// function Forgetpass(){
+//     return (
+//         <>
+//         <div className='fixed inset-0 flex items-center  justify-center bg-[#0000005d]'>
+//             <div className='bg-[#FFF5F1] min-w-[20vw] w-fit h-fit p-5 text-[#a13924] rounded shadow flex flex-col gap-3'>
+//             <span className='flex justify-between flex-col gap-2'>
+//             <label htmlFor="email" className='font-semibold'>Enter Your Email:</label>
+//             <input type="text"  className='border border-[#]'/>
+//             <span>
+//                 <button className='bg-[#A13924] text-white rounded h-8 w-20 '>Send</button>
+//                 <button className='border border-[#A13924] hover:bg-[#A13924] hover:text-white duration-200 cursor-pointer rounded h-8 w-20'>Cancel</button>
+//             </span>
+//             </span>
+//             </div>
+//         </div>
+//         </>
+//     )
+// }
