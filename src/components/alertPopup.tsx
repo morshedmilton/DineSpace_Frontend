@@ -32,8 +32,7 @@ export default function  AlerPopup({Message , time, setpopup}:param){
                 aria-labelledby="alert-popup-title"
                 aria-describedby="alert-popup-message"
                 className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col overflow-hidden rounded-3xl border border-[#E6C5BC] bg-[#FBF9F6] shadow-2xl"
-                onClick={(event) => event.stopPropagation()}
-            >
+                onClick={(event) => event.stopPropagation()}>
             <div className="flex items-start gap-3 border-b border-[#EAD8D2] bg-[#FFF5F1] px-5 py-4 sm:px-6">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#F5DED7] text-[#A13924]">
                     <Bell size={20} />

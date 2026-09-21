@@ -21,10 +21,9 @@ interface LoginResponse {
 export default function Auth(){
     const router = useRouter();
     const [showForm , setShowform] = useState(false);
-    const [disableLoginBtn ,setdisableLoginBtn] = useState(false);
-    const [disableVerifyBtn ,setdisableVerifyBtn] = useState(false);
     const [serverError , setServerError] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [btns , setbuttons] = useState({ login: false, verify: false, forget: false });
     const [popup , setpopup] = useState<string>("");
 
     const form = useForm<loginForm>({
@@ -39,9 +38,9 @@ export default function Auth(){
 
     const loginBtnClicked = ()=> {
         // console.log("loginBtnClicked");
-        setdisableLoginBtn(true);
+        setbuttons((e) => ({ ...e, login: true }));
          setTimeout(()=>{
-            setdisableLoginBtn(false);
+            setbuttons((e) => ({ ...e, login: false }));
         } , 15000) //15sec
     }
     
@@ -74,7 +73,7 @@ export default function Auth(){
                 message: data.Message
             })}
 
-            setdisableLoginBtn(false);
+            setbuttons((e) => ({ ...e, login: false }));
 
         }catch(e){ 
             setServerError(true);
@@ -82,14 +81,15 @@ export default function Auth(){
                 type:"server",
                 message: "Server error try again after some time"
             })
-            setdisableLoginBtn(false);
+            setbuttons((e) => ({ ...e, login: false }));
         }
     };
 
     const verifybtnClicked =  ()=> {  // console.log("loginBtnClicked");
-        setdisableVerifyBtn(true);
+                setbuttons((e) => ({ ...e, verify: true }));
          setTimeout(()=>{
-            setdisableVerifyBtn(false);
+     setbuttons((e) => ({ ...e, verify: false }));
+
         } , 15000) //15sec
      };
 
@@ -107,14 +107,16 @@ export default function Auth(){
                 return;
             }
             setpopup(data.Message);
-         setdisableVerifyBtn(false);
+                         setbuttons((e) => ({ ...e, verify: false }));
+
         }catch(e){  
             setServerError(true);
             verifyform.setError('email' , {
                 type:"server",
                 message: "Internal server Error Try again After some time " 
             })
-        setdisableVerifyBtn(false);
+                        setbuttons((e) => ({ ...e, verify: false }));
+
         }
     }
 
@@ -122,10 +124,11 @@ export default function Auth(){
     return(
     <>
     <ServerError error={serverError} setservererror={() => setServerError(false)}/>
+    <Forgetpass/>
        {popup && <AlerPopup setpopup={() => setpopup("")} Message={popup} />}
     <div className="flex justify-center items-center min-h-screen">
         <div className="w-[80vw] lg:w-[35vw]  md:w-[45vh] h-fitcontent xl:w-[25vw] rounded-3xl shadow ">
-            <div className="w-full h-[30%]" > <Image src="/DineSpace.png" width={11120} height={220} loading="eager" className=" w-full h-full rounded-3xl" alt="" /> </div>
+            <div className="w-full h-[30%]" > <Link href={"./"}><Image src="/DineSpace.png" width={11120} height={220} loading="eager" className=" w-full h-full rounded-3xl" alt="" /></Link> </div>
             <div className=" mt-1 flex flex-col p-5  gap-4 text-[#1B1C1A] text-[18px]" style={{fontWeight:"400"}}> 
                 <form onSubmit={form.handleSubmit(login)} className="flex flex-col gap-3">
                     <label htmlFor="email">Enter Email Address:</label>
@@ -145,7 +148,7 @@ export default function Auth(){
 
                     <div className=" flex justify-between">
                         <label htmlFor="password">Password:</label>
-                        <button className="text-[12px] font-bold text-[#A13924] cursor-pointer">Forget Password?</button>
+                        <span onClick={()=>setbuttons((e)=>({...e , forget:!btns.forget}))} className="text-[12px] font-bold text-[#A13924] cursor-pointer">Forget Password?</span>
                     </div>
                     <div className={`flex items-center p-3 shadow rounded ${form.formState.errors.password? "border border-red-500":""}`}>
                         <Lock className='text-[#17375E] mr-2' />
@@ -169,12 +172,12 @@ export default function Auth(){
                         <span className={`text-red-500 text-sm`}>{form.formState.errors.password.message as string}</span>
                     )}
 
-                    <button type="submit" disabled = {disableLoginBtn} className="bg-[#A13924] flex items-center justify-center rounded h-8 text-white cursor-pointer hover:scale-98 transition-all duration-500 " 
-                    >Sign In {disableLoginBtn?<Loader  className={`ml-2 animate-spin `}  />:<LogIn className='ml-2' />}</button>
+                    <button type="submit" disabled = {btns.login} className="bg-[#A13924] flex items-center justify-center rounded h-8 text-white cursor-pointer hover:scale-98 transition-all duration-500 " 
+                    >Sign In {btns.login?<Loader  className={`ml-2 animate-spin `}  />:<LogIn className='ml-2' />}</button>
 
                     <button
                         type="button"
-                        disabled={disableLoginBtn}
+                        disabled={btns.login}
                         onClick={() => {
                             form.setValue("email", "mubin9516@gmail.com");
                             form.setValue("password", "Mubin@11");
@@ -182,7 +185,7 @@ export default function Auth(){
                         }}
                         className="flex h-8 items-center justify-center rounded border border-[#DEC0BA] bg-[#FFF8F6] text-xs font-semibold text-[#A13924] cursor-pointer hover:bg-[#FBECE8] transition-all hover:scale-98"
                     >
-                        ⚡ One-Click Dummy Login (Demo Owner)
+                         One-Click Dummy Login (Demo Owner)
                     </button>
                 </form>
 
@@ -199,7 +202,7 @@ export default function Auth(){
                                 <input className="bg-transparent w-full h-full outline-none" type="email" {...verifyform.register('email')} placeholder="example@Dinespace.com"/>
                             </div>
                        
-                            <button type="submit" disabled = {disableVerifyBtn} className='bg-[#A13924] w-fit pl-2 pr-2 rounded flex items-center h-8 text-white cursor-pointer hover:scale-98 transition-all duration-500'>{disableVerifyBtn? <>Sending <Loader className='ml-2 animate-spin' /></> : "Send Email"}</button>
+                            <button type="submit" disabled = {btns.verify} className='bg-[#A13924] w-fit pl-2 pr-2 rounded flex items-center h-8 text-white cursor-pointer hover:scale-98 transition-all duration-500'>{btns.verify? <>Sending <Loader className='ml-2 animate-spin' /></> : "Send Email"}</button>
                                  {verifyform.formState.errors.email && (
                                  <span className="text-red-500 text-sm">{verifyform.formState.errors.email.message}</span>
                                  )}
@@ -219,10 +222,21 @@ export default function Auth(){
     );
 }
 
-function forgetpass(){
+function Forgetpass(){
     return (
         <>
-        
+        <div className='fixed inset-0 flex items-center  justify-center bg-[#0000005d]'>
+            <div className='bg-[#FFF5F1] min-w-[20vw] w-fit h-fit p-5 text-[#a13924] rounded shadow flex flex-col gap-3'>
+            <span className='flex justify-between flex-col gap-2'>
+            <label htmlFor="email" className='font-semibold'>Enter Your Email:</label>
+            <input type="text"  className='border border-[#]'/>
+            <span>
+                <button className='bg-[#A13924] text-white rounded h-8 w-20 '>Send</button>
+                <button className='border border-[#A13924] hover:bg-[#A13924] hover:text-white duration-200 cursor-pointer rounded h-8 w-20'>Cancel</button>
+            </span>
+            </span>
+            </div>
+        </div>
         </>
     )
 }
