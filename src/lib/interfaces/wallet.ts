@@ -37,3 +37,11 @@ export interface Wallet {
     restaurant?: Restaurant;
 }
 
+export interface MenuAnalyticsRow {
+  menuId: string;
+  itemName: string;
+  menuPrice: number;
+  totalItemsSold: number;
+  totalRevenue: number;
+}
+

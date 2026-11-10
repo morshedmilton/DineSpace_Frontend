@@ -2,21 +2,18 @@
 
 import { api } from "@/lib/api/axios";
 import { MenuItem } from "@/lib/interfaces/order";
-import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { PenLine, Trash } from "lucide-react";
 
 interface MenuCardProps {
   item: MenuItem;
-  index: number;
   onAvailabilityChange: (available: boolean, id: string) => void;
   onDelete: (id: string) => void;
 }
 
 export default function MenuCard({
   item,
-  index,
   onAvailabilityChange,
   onDelete,
 }: MenuCardProps) {
@@ -30,20 +27,8 @@ export default function MenuCard({
     : "/brokenOrderImage.jpg";
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 18, scale: 0.96 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.15 }}
-      whileHover={{ y: -4, scale: 1.02 }}
-      whileTap={{ scale: 0.99 }}
-      transition={{
-        duration: 0.45,
-        delay: Math.min(index * 0.06, 0.36),
-        type: "spring",
-        stiffness: 130,
-        damping: 16,
-      }}
-      className={`group overflow-hidden rounded-2xl border bg-white shadow-sm hover:border-[#A13924] hover:shadow-xl motion-reduce:transition-none ${
+    <article
+      className={`overflow-hidden rounded-2xl border bg-white shadow-sm ${
         item.isAvailable
           ? "border-[#dec0ba]"
           : "border-[#f0c3b9] bg-[#fffaf8]"
@@ -53,7 +38,7 @@ export default function MenuCard({
         <Image
           src={imageSrc}
           alt={item.itemName}
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none"
+          className="object-cover"
           quality={85}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -126,6 +111,6 @@ export default function MenuCard({
           </div>
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 }

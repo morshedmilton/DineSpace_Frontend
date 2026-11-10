@@ -7,10 +7,9 @@ import { api } from "@/lib/api/axios";
 import { restaurantContext } from "@/lib/context/Context";
 import { MenuItem } from "@/lib/interfaces/order";
 import Result from "@/lib/Result";
-import { ArrowUpDown, Plus, Search } from "lucide-react";
+import { ArrowUpDown, ChartNoAxesCombined, Plus, Search } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { motion } from "motion/react";
 
 
 type AvailabilityFilter = "all" | "available" | "unavailable";
@@ -219,13 +218,22 @@ export default function MenuPage() {
             Organize categories, update pricing, and manage availability.
           </p>
         </div>
-        <Link
-          href="menu/addMenu"
-          className="flex h-fit w-fit items-center gap-2 rounded-[10px] bg-[#A13924] p-2 text-white transition-colors hover:bg-[#812d1d]"
-        >
-          <Plus strokeWidth={3} size={20} />
-          Add Menu Item
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href="/home/menu/analytics"
+            className="inline-flex h-fit w-fit items-center gap-2 rounded-[10px] border border-[#dec0ba] bg-white px-3 py-2 text-sm font-medium text-[#654f48] transition-colors hover:border-[#A13924] hover:text-[#A13924]"
+          >
+            <ChartNoAxesCombined size={18} aria-hidden="true" />
+            Menu analytics
+          </Link>
+          <Link
+            href="menu/addMenu"
+            className="flex h-fit w-fit items-center gap-2 rounded-[10px] bg-[#A13924] p-2 text-white transition-colors hover:bg-[#812d1d]"
+          >
+            <Plus strokeWidth={3} size={20} />
+            Add Menu Item
+          </Link>
+        </div>
       </div>
 
       <section
@@ -310,11 +318,7 @@ export default function MenuPage() {
                   : currentMenu.filter((item) => item.catagory === category)
                       .length;
               return (
-                <motion.button initial={{x:-20}}
-                  whileInView={{x:0}}
-                  whileHover={{scale:1.02}}
-                  whileTap={{scale:0.95}}
-                  transition={{duration:0.8 , type:"spring"}}
+                <button
                   key={category}
                   type="button"
                   aria-pressed={selected}
@@ -335,7 +339,7 @@ export default function MenuPage() {
                   >
                     {count}
                   </span>
-                </motion.button>
+                </button>
               );
             })}
           </div>
@@ -374,11 +378,10 @@ export default function MenuPage() {
         </div>
       ) : visibleMenu.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 pb-8 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-          {visibleMenu.map((item, index) => (
-            <MenuCard
+          {visibleMenu.map((item) => (
+           <MenuCard
               key={item.id}
               item={item}
-              index={index}
               onAvailabilityChange={toggleAvailable}
               onDelete={deleteItem}
             />
